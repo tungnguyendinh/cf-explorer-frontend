@@ -8,9 +8,11 @@
 <a href="https://conventionalcommits.org"><img alt="conventionalcommits" src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits" /></a>
 </p>
 
-This repository houses the frontend component of Explorer. Developed with TypeScript, React.js, and mui, it showcases a user-friendly interface that presents the Cardano blockchain data collected and aggregated by LedgerSync.
+This repository houses the frontend component of Explorer. Developed with TypeScript, React.js, and mui, it showcases a
+user-friendly interface that presents the Cardano blockchain data collected and aggregated by LedgerSync.
 
-👉 Check the [Explorer repository](https://github.com/cardano-foundation/cf-explorer) to understand how the microservices work together
+👉 Check the [Explorer repository](https://github.com/cardano-foundation/cf-explorer) to understand how the microservices
+work together
 
 ## Prerequisites
 
@@ -30,19 +32,20 @@ Open terminal and run commad: `npm install`
 In the terminal run command: `cp .env.example .env`
 
 **Step 3** Update env variables:
-- Update port for application. 
-    >Example: `PORT=3000`
 
-- Update API URL for explorer service. 
-    >Example: `REACT_APP_API_URL=http://localhost:8080`
+- Update port for application.
+  > Example: `PORT=3000`
 
-- Update WebSocket URL for real-time expolorer service. 
-    >Example: `REACT_APP_WS_URL=ws://localhost:8080/ws`
+- Update API URL for explorer service.
+  > Example: `REACT_APP_API_URL=http://localhost:8080`
+
+- Update WebSocket URL for real-time expolorer service.
+  > Example: `REACT_APP_WS_URL=ws://localhost:8080/ws`
 
 - Update API URL for authentication service.
-    >Example: `REACT_APP_AUTH_API_URL=http://localhost:8081`
+  > Example: `REACT_APP_AUTH_API_URL=http://localhost:8081`
 
-- Update APP URL for other network. Example: 
+- Update APP URL for other network. Example:
     ```
     REACT_APP_TESTNET_APP_URL=http://localhost:3000
     REACT_APP_PREVIEW_APP_URL=http://localhost:3001
@@ -51,19 +54,19 @@ In the terminal run command: `cp .env.example .env`
     ```
 
 - Update Jira Embedded Key to Add Jira Support Widget to explorer
-    >Example: `REACT_APP_JSD_WIDGET_KEY=xxx`
+  > Example: `REACT_APP_JSD_WIDGET_KEY=xxx`
 
 - Update link to the cardano price
-    >Example: `REACT_APP_EXT_ADA_PRICE_URL=https://www.coingecko.com/en/coins/cardano`
+  > Example: `REACT_APP_EXT_ADA_PRICE_URL=https://www.coingecko.com/en/coins/cardano`
 
 - Update link to the cardano news
-    >Example: `REACT_APP_CARDANO_NEWS_URL=https://cardanofoundation.org/en/news`
+  > Example: `REACT_APP_CARDANO_NEWS_URL=https://cardanofoundation.org/en/news`
 
 - Update application network (`mainnet`, `preprod` or `preview`)
-    >Example: `REACT_APP_NETWORK=mainnet`
+  > Example: `REACT_APP_NETWORK=mainnet`
 
 - Configure supported network names (`mainnet`, `preprod` or `preview`)
-    >Example: `REACT_APP_NETWORK_NAMES="{"mainnet":"Mainnet","preprod":"Preprod", ...}"`
+  > Example: `REACT_APP_NETWORK_NAMES="{"mainnet":"Mainnet","preprod":"Preprod", ...}"`
 
 - Update link takes the name of Bolnisi wine
   > Example: `REACT_APP_BOLNISI_NAME_API="https://minio.pro.cf-bolnisi-mainnet.eu-west-1.bnwa.metadata.dev.cf-deployments.org/georgian-wine/public/winerymapping.json"`
@@ -73,7 +76,8 @@ In the terminal run command: `cp .env.example .env`
 Runs the app in the development mode.
 Open terminal and run command: `npm start`
 
-The application will run by default on port 3000. If you want to run the application on another port, please change the `PORT` in the .env file.
+The application will run by default on port 3000. If you want to run the application on another port, please change
+the `PORT` in the .env file.
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
@@ -83,23 +87,96 @@ This app uses `Jest` for Unit test.
 
 To run your tests, execute the following command:
 
- - `npm run jest-test` to test all file `*.test.ts`.
+- `npm run jest-test` to test all file `*.test.ts`.
 
- - `npm run jest-test-one [file_relative_path]` to test a file with `[file_relative_path]` being relative path of file. Ex: `npm run jest-test-one src\commons\utils\helper.test.ts`
+- `npm run jest-test-one [file_relative_path]` to test a file with `[file_relative_path]` being relative path of file.
+  Ex: `npm run jest-test-one src\commons\utils\helper.test.ts`
 
-## E2e test with Cypress
-This app we use `Cypress` for e2e testing.
+## Web automation test with Playwright
 
-You can run it with following commands:
+### Pre-installed on local:
 
-Open Launchpad:
-Run `npm run cypress:open` to open Cypress launchpad.
+- [allure commandline](https://docs.qameta.io/allure-report/#_installing_a_commandline)
+- npm and node js
+- add .env to root folder with APPLICATION_URL property pointing to chosen environment e.g.
 
-On opening Cypress, your testing journey begins with the Launchpad. Its job is to guide you through the decisions and configuration tasks you need to complete before you start writing your first test.
+```
+APPLICATION_URL=https://beta.explorer.cardano.org/en
+API_URL=<url>
+USERNAME=<login>
+PASSWORD=<password>
+# in what mode playwright should run the browser, by default true
+HEADLESS= true or false 
+```
 
+### Test run in local:
 
-To run e2e test with all specs, try this command:
-`npm run cypress:run`
+1. Install all packages locally
+
+```
+npm install
+```
+
+2. Install browsers
+
+```
+npx playwright install
+```
+
+3. Run tests for chosen project e.g.
+
+```
+npm run chrome
+```
+
+or
+
+```
+npm run firefox
+```
+
+---
+
+### Test run with allure report
+
+1. Run tests in root folder
+
+```
+ALLURE_RESULTS_DIR=.reports/chrome/allure-results npx playwright test --project='chrome'
+```
+
+- there is also shorter command from package.json scripts to run all tests
+
+```
+npm run chrome
+```
+
+- to run specific feature test indicate full path to feature file
+
+```
+npm run chrome playwright/tests/features/sing-up.feature
+```
+
+- to run specific scenario for a feature add tag **@only** to the scenario and generate test changes:
+
+```
+npx bddgen
+npm run chrome playwright/tests/features/sing-up.feature
+```
+
+- more examples and documentation [here](https://vitalets.github.io/playwright-bdd/#/installation)
+
+2. Generate report
+
+```
+allure generate .reports/chrome/allure-results -o .reports/chrome/allure-report --clean
+```
+
+3. Open report
+
+```
+allure open .reports/chrome/allure-report
+```
 
 ## Build into production
 
