@@ -91,6 +91,7 @@ export const TCol = styled("td")<{
 
 export const TBody = styled("tbody")`
   position: relative;
+  z-index: 10;
 `;
 export const LoadingWrapper = styled(Box)`
   position: absolute;
